@@ -1,7 +1,10 @@
 package com.example.blog.models;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 import java.util.Objects;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BlogModel {
 
     String author;
@@ -48,3 +51,4 @@ public class BlogModel {
                 '}';
     }
 }
+
