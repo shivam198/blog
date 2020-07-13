@@ -1,18 +1,24 @@
 package com.example.blog.controllers;
 
+import com.example.blog.service.BlogList;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.blog.models.BlogModel;
-import static com.example.blog.models.BlogModel.createBlogs;
+import com.example.blog.models.Blog;
+
+import java.util.List;
+
+import static com.example.blog.service.BlogList.createBlogs;
 
 @RestController
 @RequestMapping("/blogs")
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class BlogController {
 
-    @GetMapping()
-    public ResponseEntity<BlogModel[]> blogs(){
-        BlogModel[] blogs = createBlogs();
+    @GetMapping("")
+    public ResponseEntity<BlogList> blogs(){
+        BlogList blogs = createBlogs();
         return new ResponseEntity<>(blogs, HttpStatus.OK);
     }
 
@@ -27,9 +33,11 @@ public class BlogController {
     }
 
     @GetMapping("/id")
-    public ResponseEntity<BlogModel> getBlog(@RequestParam(value = "id") int id){
-        BlogModel[] blogs = createBlogs();
-        BlogModel blog = blogs[id-1];
+    public ResponseEntity<Blog> getBlog(@RequestParam(value = "id") int id){
+        BlogList allBlogs = createBlogs();
+        List<Blog> blogList = (List<Blog>) allBlogs;
+        Blog blog = blogList.get(id - 1);
+//        Blog blog = (List<Blog>) blogs.getBlogs().get(id-1);
         return new ResponseEntity<>(blog, HttpStatus.OK);
     }
 
